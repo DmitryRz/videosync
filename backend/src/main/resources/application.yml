@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: videosync
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:videosync}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+jwt:
+  secret: 959d43d1392ffc0c7de6cbf7ce4e5739b528f35997556756a149321ae73890a4
+  access-expiration: 1800000
+  refresh-expiration: 604800000
+
+logging:
+  level:
+    ru.dmitryrz.videosync: DEBUG
+
+app:
+  public-endpoints:
+    - "/api/auth/**"
+    - "/actuator/**"
+    - "/actuator"
+    - "/v3/api-docs/**"
+    - "/swagger-ui/**"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

@@ -8,7 +8,6 @@ Spring Boot, Spring Security, Spring Data JPA, Spring WebSocket, Validation, Lom
 
 ## Эндпоинты:
 
-
 ### Авторизация и аутентификация
 | Метод | Путь | Описание |
 |-------|------|----------|
@@ -24,22 +23,6 @@ Spring Boot, Spring Security, Spring Data JPA, Spring WebSocket, Validation, Lom
 | GET | `/api/videos` | Получить список видео |
 | GET | `/api/videos/{id}` | Получить видео по ID |
 | GET | `/api/videos/{id}/stream` | Получить видео-поток |
-
-### Комментарии
-| Метод | Путь | Описание |
-|-------|------|----------|
-| POST | `/api/videos/{id}/comments` | Добавить комментарий к видео |
-| GET | `/api/videos/{id}/comments` | Получить комментарии видео |
-| PUT | `/api/comments/{id}` | Обновить комментарий |
-| DELETE | `/api/comments/{id}` | Удалить комментарий |
-
-### Оценки
-| Метод | Путь | Описание |
-|-------|------|----------|
-| POST | `/api/videos/{id}/ratings` | Добавить оценку видео |
-| GET | `/api/videos/{id}/ratings` | Получить оценки видео |
-| PUT | `/api/videos/{id}/ratings` | Обновить оценку видео |
-| DELETE | `/api/videos/{id}/ratings` | Удалить оценку видео |
 
 ### Комнаты
 | Метод | Путь | Описание |
@@ -59,21 +42,65 @@ Spring Boot, Spring Security, Spring Data JPA, Spring WebSocket, Validation, Lom
 | DELETE | `/api/message/{id}` | Удалить сообщение |
 
 ## Сущности БД:
-- Users
-- Videos  
-- Comments
-- Ratings
-- Rooms
-- Messages
+- Users: user_id, username, email, password_hash, avatar_url, role, created_at 
+- Videos: video_id, title, description, filepath, content_type, size, video_format, created_at
+- Rooms: room_id, uuid, created_at, created_by, video_id
+- Messages: message_id, room_id, user_id, content, created_at
+- Visitors: user_id, room_id, viewer_role
 
-## Связи между Сущностями:
-| Сущность 1 | Связь | Сущность 2 |
-|------------|-------|------------|
-| Users | 1:M | Videos |
-| Users | 1:M | Comments |
-| Users | 1:M | Ratings |
-| Users | 1:M | Message |
-| Videos | 1:M | Comments |
-| Videos | 1:M | Ratings |
-| Rooms | 1:1 | Videos |
-| Rooms | 1:M | Messages |
+## ER модель:
+| <img src="ER_model.png" alt="ER Model" width="500"/> |
+|------------------------------------------------------|
+
+## Структура бекенда:
+```
+video-sync-project/
+│
+├── 📁 src/
+│   ├── 📁 main/
+│   │   ├── 📁 java/ru/dmitryrz/videosync/
+│   │   │   ├── 🚀 VideosyncApplication.java
+│   │   │   │
+│   │   │   ├── 📁 config/
+│   │   │   │   ├── 🔐 JwtFilter.java
+│   │   │   │   └── 🔐 SecurityConfig.java
+│   │   │   │
+│   │   │   ├── 📁 controller/
+│   │   │   │   └── 🎮 AuthController.java
+│   │   │   │
+│   │   │   ├── 📁 dto/
+│   │   │   │   ├── 📄 AuthRequest.java
+│   │   │   │   ├── 📄 AuthResponse.java
+│   │   │   │   └── 📄 RefreshTokenRequest.java
+│   │   │   │
+│   │   │   ├── 📁 models/
+│   │   │   │   ├── 👥 Role.java
+│   │   │   │   ├── 👤 User.java
+│   │   │   │   └── 👤 UserDetailsImpl.java
+│   │   │   │
+│   │   │   ├── 📁 repository/
+│   │   │   │   └── 💾 UserRepository.java
+│   │   │   │
+│   │   │   └── 📁 service/
+│   │   │       ├── ⚙️ AuthService.java
+│   │   │       ├── ⚙️ JwtService.java
+│   │   │       └── 📁 Impl/
+│   │   │           ├── 🔧 AuthServiceImpl.java
+│   │   │           ├── 🔧 JwtServiceImpl.java
+│   │   │           └── 🔧 UserDetailsServiceImpl.java
+│   │   │
+│   │   └── 📁 resources/
+│   │       ├── ⚙️ application.yml
+│   │       └── 📁 static/
+│   │
+│   └── 📁 test/
+│       └── 📁 java/ru/dmitryrz/videosync/
+│           └── 🧪 VideosyncApplicationTests.java
+│
+├── 🖼️ ER_model.png
+├── ❓ HELP.md
+├── ⚙️ mvnw
+├── ⚙️ mvnw.cmd
+├️── 📦 pom.xml
+└── 📖 README.md
+```
