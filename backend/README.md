@@ -14,6 +14,10 @@ Spring Boot, Spring Security, Spring Data JPA, Spring WebSocket, Validation, Lom
 | POST | `/api/auth/signin` | Вход в систему |
 | POST | `/api/auth/signup` | Регистрация |
 | POST | `/api/auth/refresh` | Обновление токена |
+
+### Действия с пользователем
+| Метод | Путь | Описание |
+|-------|------|----------|
 | GET | `/api/auth/me` | Получить текущего пользователя |
 
 ### Видео
@@ -52,7 +56,7 @@ Spring Boot, Spring Security, Spring Data JPA, Spring WebSocket, Validation, Lom
 | <img src="ER_model.png" alt="ER Model" width="500"/> |
 |------------------------------------------------------|
 
-## Структура бекенда:
+## Файловая структура бекенда:
 ```
 video-sync-project/
 │
@@ -69,8 +73,9 @@ video-sync-project/
 │   │   │   │   └── 🎮 AuthController.java
 │   │   │   │
 │   │   │   ├── 📁 dto/
-│   │   │   │   ├── 📄 AuthRequest.java
 │   │   │   │   ├── 📄 AuthResponse.java
+│   │   │   │   ├── 📄 UserResponse.java
+│   │   │   │   ├── 📄 AuthRequest.java
 │   │   │   │   └── 📄 RefreshTokenRequest.java
 │   │   │   │
 │   │   │   ├── 📁 models/

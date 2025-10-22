@@ -9,13 +9,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.dmitryrz.videosync.dto.AuthResponse;
-import ru.dmitryrz.videosync.dto.UserResponse;
 import ru.dmitryrz.videosync.models.Role;
 import ru.dmitryrz.videosync.models.User;
 import ru.dmitryrz.videosync.repository.UserRepository;
 import ru.dmitryrz.videosync.service.JwtService;
 import ru.dmitryrz.videosync.service.AuthService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -47,8 +47,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse signUp(String username, String password) {
-        Optional<User> existingUser = userRepository.findByUsername(username);
+    public AuthResponse signUp(String username, String email, String password) {
+        Optional<User> existingUser = userRepository.findByUsernameOrEmail(username, email);
 
         if (existingUser.isPresent()) {
             User user = existingUser.get();
@@ -62,8 +62,10 @@ public class AuthServiceImpl implements AuthService {
 
         User user = User.builder()
                 .username(username)
+                .email(email)
                 .password(passwordEncoder.encode(password))
                 .roles(Set.of(Role.USER))
+                .createdAt(LocalDateTime.now())
                 .build();
 
         userRepository.save(user);
@@ -83,16 +85,6 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder()
                 .accessToken(newAccessToken)
                 .refreshToken(newRefreshToken)
-                .build();
-    }
-
-    @Override
-    public UserResponse getUser() {
-        return UserResponse.builder()
-                .id(1L)
-                .username("test_user")
-                .email("test@example.com")
-                .role(Set.of(Role.USER, Role.ADMIN))
                 .build();
     }
 }
