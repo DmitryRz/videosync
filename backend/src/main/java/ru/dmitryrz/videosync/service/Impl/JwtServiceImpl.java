@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import ru.dmitryrz.videosync.models.User;
 import ru.dmitryrz.videosync.service.JwtService;
 
 import javax.crypto.SecretKey;
@@ -29,37 +30,41 @@ public class JwtServiceImpl implements JwtService {
     private long refreshExpiration;
 
     @Override
-    public String generateAccessToken(String username) {
-        return generateAccessToken(new HashMap<>(), username);
+    public String generateAccessToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", user.getUsername());
+        claims.put("type", "access");
+        claims.put("role", user.getRoles());
+        return generateAccessToken(claims, String.valueOf(user.getId()));
     }
 
-    @Override
-    public String generateAccessToken(Map<String, Object> extraClaims, String username) {
+    public String generateAccessToken(Map<String, Object> extraClaims, String userid) {
         return Jwts.builder()
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .setHeaderParam("typ", "JWT")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + accessExpiration))
                 .setId(UUID.randomUUID().toString())
-                .setSubject(username)
+                .setSubject(userid)
                 .addClaims(extraClaims)
                 .compact();
     }
 
     @Override
-    public String generateRefreshToken(String username) {
-        return generateRefreshToken(new HashMap<>(), username);
+    public String generateRefreshToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("type", "refresh");
+        return generateRefreshToken(claims, String.valueOf(user.getId()));
     }
 
-    @Override
-    public String generateRefreshToken(Map<String, Object> extraClaims, String username) {
+    public String generateRefreshToken(Map<String, Object> extraClaims, String userid) {
         return Jwts.builder()
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .setHeaderParam("typ", "JWT")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
                 .setId(UUID.randomUUID().toString())
-                .setSubject(username)
+                .setSubject(userid)
                 .addClaims(extraClaims)
                 .compact();
     }
@@ -74,14 +79,44 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
+    public boolean isAccessToken(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            return "access".equals(claims.get("type"));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isRefreshToken(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            return "refresh".equals(claims.get("type"));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && isTokenExpired(token);
     }
 
     @Override
+    public Long extractUserId(String token) {
+        String subject = extractClaim(token, Claims::getSubject);
+        try {
+            return Long.parseLong(subject);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid user ID in token subject: " + subject);
+        }
+    }
+
+    @Override
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, claims -> claims.get("username", String.class));
     }
 
     private boolean isTokenExpired(String token) {

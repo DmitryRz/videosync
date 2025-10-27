@@ -2,6 +2,7 @@ package ru.dmitryrz.videosync.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,8 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.dmitryrz.videosync.dto.AuthResponse;
+import ru.dmitryrz.videosync.exception.AccountDeletedException;
 import ru.dmitryrz.videosync.models.Role;
 import ru.dmitryrz.videosync.models.User;
+import ru.dmitryrz.videosync.models.UserDetailsImpl;
 import ru.dmitryrz.videosync.repository.UserRepository;
 import ru.dmitryrz.videosync.service.JwtService;
 import ru.dmitryrz.videosync.service.AuthService;
@@ -36,14 +39,24 @@ public class AuthServiceImpl implements AuthService {
                         password
                 )
         );
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetailsImpl userDetails) {
+            User user = userRepository.findById(userDetails.getId()).orElseThrow();
 
-        String accessToken = jwtService.generateAccessToken(authentication.getName());
-        String refreshToken = jwtService.generateRefreshToken(authentication.getName());
-
-        return AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+            String accessToken = jwtService.generateAccessToken(user);
+            String refreshToken = jwtService.generateRefreshToken(user);
+            
+            return AuthResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        }
+        else {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unexpected principal type: " + principal.getClass()
+            );
+        }
     }
 
     @Override
@@ -58,7 +71,6 @@ public class AuthServiceImpl implements AuthService {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Почта уже существует");
             }
         }
-
 
         User user = User.builder()
                 .username(username)
@@ -78,9 +90,20 @@ public class AuthServiceImpl implements AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid refresh token");
         }
 
-        String username = jwtService.extractUsername(refreshToken);
-        String newAccessToken = jwtService.generateAccessToken(username);
-        String newRefreshToken = jwtService.generateRefreshToken(username);
+        if (!jwtService.isRefreshToken(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not a refresh token");
+        }
+
+        Long userId = jwtService.extractUserId(refreshToken);
+
+        User user = userRepository.findById(userId).orElseThrow();
+
+        if (user.getIsDeleted()) {
+            throw new AccountDeletedException("Account is deleted");
+        }
+
+        String newAccessToken = jwtService.generateAccessToken(user);
+        String newRefreshToken = jwtService.generateRefreshToken(user);
 
         return AuthResponse.builder()
                 .accessToken(newAccessToken)

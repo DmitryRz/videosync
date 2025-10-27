@@ -1,8 +1,14 @@
 package ru.dmitryrz.videosync.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.validation.Valid;
+import ru.dmitryrz.videosync.dto.UpdateUserRequest;
 import ru.dmitryrz.videosync.dto.UserResponse;
+import ru.dmitryrz.videosync.models.UserDetailsImpl;
 
 public interface UserService {
-    UserResponse getUser(UserDetails userDetails);
+    UserResponse getUser(UserDetailsImpl userDetails);
+
+    UserResponse updateUser(UserDetailsImpl userDetails, @Valid UpdateUserRequest request);
+
+    void deleteUser(UserDetailsImpl userDetails);
 }

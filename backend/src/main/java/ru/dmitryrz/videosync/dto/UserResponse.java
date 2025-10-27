@@ -18,4 +18,5 @@ public class UserResponse {
     private String email;
     private Set<Role> role = new HashSet<>();
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

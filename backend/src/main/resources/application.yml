@@ -24,12 +24,7 @@ logging:
     ru.dmitryrz.videosync: DEBUG
 
 app:
-  public-endpoints:
-    - "/api/auth/**"
-    - "/actuator/**"
-    - "/actuator"
-    - "/v3/api-docs/**"
-    - "/swagger-ui/**"
+  public-endpoints: "/api/auth/**,/actuator/**,/actuator,/v3/api-docs/**,/swagger-ui/**"
 
 management:
   endpoints:

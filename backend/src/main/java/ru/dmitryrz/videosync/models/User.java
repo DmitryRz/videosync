@@ -41,6 +41,14 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @CreationTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @Builder.Default
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
 //    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
 //    private List<Room> createdRooms = new ArrayList<>();
 //
