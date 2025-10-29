@@ -69,16 +69,23 @@ video-sync-project/
 │   │   │   │
 │   │   │   ├── 📁 config/
 │   │   │   │   ├── 🔐 JwtFilter.java
-│   │   │   │   └── 🔐 SecurityConfig.java
+│   │   │   │   ├── 🔐 SecurityConfig.java
+│   │   │   │   └── ⚙️ AdminInitializer.java
 │   │   │   │
 │   │   │   ├── 📁 controller/
-│   │   │   │   └── 🎮 AuthController.java
+│   │   │   │   ├── 🎮 AuthController.java
+│   │   │   │   └── 🎮 UserController.java
 │   │   │   │
 │   │   │   ├── 📁 dto/
 │   │   │   │   ├── 📄 AuthResponse.java
-│   │   │   │   ├── 📄 UserResponse.java
-│   │   │   │   ├── 📄 AuthRequest.java
-│   │   │   │   └── 📄 RefreshTokenRequest.java
+│   │   │   │   ├── 📄 RefreshTokenRequest.java
+│   │   │   │   ├── 📄 SignInRequest.java
+│   │   │   │   ├── 📄 SignUpRequest.java
+│   │   │   │   ├── 📄 UpdateUserRequest.java
+│   │   │   │   └── 📄 UserResponse.java
+│   │   │   │
+│   │   │   ├── 📁 exception/
+│   │   │   │   └── ⚠️ AccountDeletedException.java
 │   │   │   │
 │   │   │   ├── 📁 models/
 │   │   │   │   ├── 👥 Role.java
@@ -91,10 +98,12 @@ video-sync-project/
 │   │   │   └── 📁 service/
 │   │   │       ├── ⚙️ AuthService.java
 │   │   │       ├── ⚙️ JwtService.java
+│   │   │       ├── ⚙️ UserService.java
 │   │   │       └── 📁 Impl/
 │   │   │           ├── 🔧 AuthServiceImpl.java
 │   │   │           ├── 🔧 JwtServiceImpl.java
-│   │   │           └── 🔧 UserDetailsServiceImpl.java
+│   │   │           ├── 🔧 UserDetailsServiceImpl.java
+│   │   │           └── 🔧 UserServiceImpl.java
 │   │   │
 │   │   └── 📁 resources/
 │   │       ├── ⚙️ application.yml
@@ -108,6 +117,6 @@ video-sync-project/
 ├── ❓ HELP.md
 ├── ⚙️ mvnw
 ├── ⚙️ mvnw.cmd
-├️── 📦 pom.xml
+├── 📦 pom.xml
 └── 📖 README.md
 ```
