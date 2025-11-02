@@ -1,0 +1,9 @@
+.bounce-letter {
+    display: inline-block;
+    animation: bounce 0.5s ease infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}

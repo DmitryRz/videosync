@@ -29,13 +29,13 @@ export const SIGNIN_FIELDS = [
         label: 'Имя пользователя',
         type: 'text',
         placeholder: 'Введите имя пользователя',
-        required: true
+        required: false
     },
     {
         name: 'password',
         label: 'Пароль',
         type: 'password',
         placeholder: 'Введите пароль',
-        required: true
+        required: false
     }
 ];

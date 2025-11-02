@@ -12,6 +12,20 @@
     --bs-btn-active-border-color: #4d0bbf;
 }
 
+/* Стили для disabled состояния */
+.btn-primary:disabled {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+}
+
+.btn-primary:disabled:hover {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed;
+}
+
 .btn-outline-primary {
     color: var(--bs-primary) !important;
     border-color: var(--bs-primary) !important;
@@ -32,6 +46,22 @@
     color: #fff !important;
     background-color: var(--bs-primary) !important;
     border-color: var(--bs-primary) !important;
+}
+
+/* Стили для disabled outline кнопки */
+.btn-outline-primary:disabled {
+    color: var(--bs-primary) !important;
+    background-color: transparent !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+}
+
+.btn-outline-primary:disabled:hover {
+    color: var(--bs-primary) !important;
+    background-color: transparent !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed;
 }
 
 .bg-primary {

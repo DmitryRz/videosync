@@ -1,4 +1,3 @@
-// components/common/AuthPage.jsx
 import React from 'react';
 import { Link } from "react-router-dom";
 import AuthForm from "./AuthForm.jsx";
@@ -7,11 +6,13 @@ const AuthPage = ({
                       title,
                       fieldsConfig,
                       formData,
-                      handleInputChange,
+                      onInputChange,
                       onSubmit,
                       submitText,
                       linkPath,
-                      linkText
+                      linkText,
+                      errorMessage,
+                      disabled = false
                   }) => {
     return (
         <div className="container">
@@ -20,13 +21,14 @@ const AuthPage = ({
                     <div className="card shadow">
                         <div className="card-body p-4">
                             <h2 className="card-title text-center mb-4">{title}</h2>
-
                             <AuthForm
                                 fieldsConfig={fieldsConfig}
                                 formData={formData}
-                                onInputChange={handleInputChange}
+                                onInputChange={onInputChange}
                                 onSubmit={onSubmit}
                                 submitText={submitText}
+                                errorMessage={errorMessage}
+                                disabled={disabled}
                             />
 
                             <div className="text-center">

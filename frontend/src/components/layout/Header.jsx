@@ -1,34 +1,36 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { useAuth } from "../../hooks/index.js";
+import { AuthContext } from "../../context/AuthContext.js";
+import HeaderLoading from "./header/HeaderLoading.jsx";
+import AuthButtons from "./header/AuthButtons.jsx";
+import HeaderBrand from "./header/HeaderBrand.jsx";
+import NavigationMenu from "./header/NavigationMenu.jsx";
+import UserDropdown from "./header/UserDropdown.jsx";
 
 const Header = () => {
+    const { user, isAuthenticated, isLoading, logout } = useAuth(AuthContext);
+
+    if (isLoading) {
+        return <HeaderLoading />;
+    }
+
     return (
         <header className="border-bottom">
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
-                    <Link className="navbar-brand fw-bold fs-3" to="/">
-                        <span className="text-primary">Video</span>sync
-                    </Link>
-
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+                    <HeaderBrand />
 
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav me-auto">
-                            <li className="nav-item">
-                                <Link className="nav-link active" to="/">Главная</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/videos">Все видео</Link>
-                            </li>
-                        </ul>
+                        <NavigationMenu
+                            isAuthenticated={isAuthenticated}
+                            user={user}
+                        />
 
-                        <div className="d-flex">
-                            <Link to='/signin' type="button" className="btn btn-outline-light me-2">Войти</Link>
-                            <Link to='/signup' type="button" className="btn btn-primary">Регистрация</Link>
-                        </div>
+                        {!isAuthenticated ? (
+                            <AuthButtons />
+                        ) : (
+                            <UserDropdown user={user} logout={logout} />
+                        )}
                     </div>
                 </div>
             </nav>

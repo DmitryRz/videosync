@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const useAuthForm = (initialFields) => {
+const useAuthForm = (initialFields) => {
     const [formData, setFormData] = useState(initialFields);
 
     const handleInputChange = (field, value) => {
@@ -16,3 +16,5 @@ export const useAuthForm = (initialFields) => {
         setFormData
     };
 };
+
+export default useAuthForm;

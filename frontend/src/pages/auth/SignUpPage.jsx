@@ -1,7 +1,7 @@
 import React from 'react';
-import {useAuthForm} from "../../hooks/useAuthForm.js";
-import {SIGNUP_FIELDS} from "../../constants/authForms.js";
 import AuthPage from "../../components/common/auth/AuthPage.jsx";
+import {SIGNUP_FIELDS} from "../../constants/authForms.js";
+import {useAuthForm} from "../../hooks/index.js";
 
 const SignUpPage = () => {
     const { formData, handleInputChange } = useAuthForm({

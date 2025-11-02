@@ -4,15 +4,17 @@ import React from "react";
 import {BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter.jsx";
 import {Layout} from "./components/layout/index.js";
+import {AuthProvider} from "./context/AuthProvider.jsx";
 
 function App() {
-    console.log(import.meta.env.VITE_API_URL)
     return (
-        <BrowserRouter>
-            <Layout>
-                <AppRouter />
-            </Layout>
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Layout>
+                    <AppRouter />
+                </Layout>
+            </BrowserRouter>
+        </AuthProvider>
     )
 }
 
