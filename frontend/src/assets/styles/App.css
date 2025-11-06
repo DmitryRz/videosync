@@ -1,0 +1,93 @@
+:root {
+    --bs-primary: #6710f3;
+    --bs-primary-rgb: 103, 16, 243;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: #5a0dd9;
+    --bs-btn-hover-border-color: #5a0dd9;
+    --bs-btn-active-bg: #4d0bbf;
+    --bs-btn-active-border-color: #4d0bbf;
+}
+
+/* Стили для disabled состояния */
+.btn-primary:disabled {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+}
+
+.btn-primary:disabled:hover {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed;
+}
+
+.btn-outline-primary {
+    color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary:hover {
+    color: #fff !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5) !important;
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+    color: #fff !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+/* Стили для disabled outline кнопки */
+.btn-outline-primary:disabled {
+    color: var(--bs-primary) !important;
+    background-color: transparent !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+}
+
+.btn-outline-primary:disabled:hover {
+    color: var(--bs-primary) !important;
+    background-color: transparent !important;
+    border-color: var(--bs-primary) !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed;
+}
+
+.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+.text-primary {
+    color: var(--bs-primary) !important;
+}
+
+.border-primary {
+    border-color: var(--bs-primary) !important;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, rgba(103, 16, 243, 0.1) 0%, rgba(0, 0, 0, 0) 50%);
+    padding: 100px 0;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(103, 16, 243, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
