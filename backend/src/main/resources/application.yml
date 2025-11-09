@@ -1,36 +1,110 @@
+# -------------------------------------------------------------------
+# ОБЩАЯ (БАЗОВАЯ) КОНФИГУРАЦИЯ
+# Эти настройки применяются всегда, если не переопределены в профиле
+# -------------------------------------------------------------------
 spring:
   application:
     name: videosync
+
+  # --- Профили ---
+  # Указываем 'dev' как профиль по умолчанию, если не указан другой (например, при запуске)
+  profiles:
+    active: prod
+
+  jpa:
+    open-in-view: false
+
+  # Настройки для загрузки файлов (видео и превью)
+  servlet:
+    multipart:
+      max-file-size: 500MB    # Макс. размер одного файла (установите свой лимит)
+      max-request-size: 510MB # Макс. размер всего запроса (чуть больше)
+
+
+
+# --- Настройки вашего приложения ---
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
+
+  storage:
+    video-path: ./storage/video     # Относительный путь для видео
+    preview-path: ./storage/preview # Относительный путь для превью
+
+  public-endpoints: "/api/auth/**,/actuator/**,/actuator,/v3/api-docs/**,/swagger-ui/**"
+
+  jwt:
+    secret: ${JWT_SECRET:959d43d1392ffc0c7de6cbf7ce4e5739b528f35997556756a149321ae73890a4}
+    access-expiration: 1800000    # 30 минут
+    refresh-expiration: 604800000 # 7 дней
+
+# --- Настройки Actuator ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info  # Включим health и info
+  endpoint:
+    health:
+      show-details: never # Правильно, детали не показываем
+---
+# -------------------------------------------------------------------
+# ПРОФИЛЬ 'dev' (ДЛЯ РАЗРАБОТКИ)
+# Активируется с флагом: --spring.profiles.active=dev
+# (Или по умолчанию, как указали в 'spring.profiles.active' выше)
+# -------------------------------------------------------------------
+spring:
+  config:
+    activate:
+      on-profile: dev
 
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:videosync}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:password}
+
   jpa:
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true
-    open-in-view: false
-
-jwt:
-  secret: 959d43d1392ffc0c7de6cbf7ce4e5739b528f35997556756a149321ae73890a4
-  access-expiration: 1800000
-  refresh-expiration: 604800000
+        format_sql: false
+    show-sql: false
 
 logging:
   level:
-    ru.dmitryrz.videosync: DEBUG
+    ru.dmitryrz.videosync: DEBUG     # Подробные логи вашего приложения
+    org.springframework.web: DEBUG   # Полезно видеть запросы
+#    org.hibernate.SQL: DEBUG         # Полезно видеть SQL
+#    org.hibernate.type.descriptor.sql: TRACE # Полезно видеть параметры SQL
 
-app:
-  public-endpoints: "/api/auth/**,/actuator/**,/actuator,/v3/api-docs/**,/swagger-ui/**"
+---
+# -------------------------------------------------------------------
+# ПРОФИЛЬ 'prod' (ДЛЯ ПРОДАКШЕНА)
+# Активируется с флагом: --spring.profiles.active=prod
+# -------------------------------------------------------------------
+spring:
+  config:
+    activate:
+      on-profile: prod
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health
-  endpoint:
-    health:
-      show-details: never
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+    show-sql: false
+
+jwt:
+  secret: ${JWT_SECRET}
+
+logging:
+  level:
+    ru.dmitryrz.videosync: INFO
+    org.springframework.web: INFO
+    org.hibernate: WARN

@@ -20,13 +20,13 @@ import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
-    @Value("${jwt.secret}")
+    @Value("${app.jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.access-expiration}")
+    @Value("${app.jwt.access-expiration}")
     private long accessExpiration;
 
-    @Value("${jwt.refresh-expiration}")
+    @Value("${app.jwt.refresh-expiration}")
     private long refreshExpiration;
 
     @Override
