@@ -9,7 +9,7 @@ spring:
   # --- Профили ---
   # Указываем 'dev' как профиль по умолчанию, если не указан другой (например, при запуске)
   profiles:
-    active: prod
+    active: dev
 
   jpa:
     open-in-view: false
@@ -73,8 +73,8 @@ spring:
 logging:
   level:
     ru.dmitryrz.videosync: DEBUG     # Подробные логи вашего приложения
-    org.springframework.web: DEBUG   # Полезно видеть запросы
-#    org.hibernate.SQL: DEBUG         # Полезно видеть SQL
+    org.springframework.web: INFO   # Полезно видеть запросы
+    org.hibernate.SQL: INFO        # Полезно видеть SQL
 #    org.hibernate.type.descriptor.sql: TRACE # Полезно видеть параметры SQL
 
 ---

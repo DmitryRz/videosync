@@ -4,6 +4,14 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### backend ### 
+backend/storage/**/*.mp4
+backend/storage/**/*.avi
+backend/storage/**/*.mov
+backend/storage/**/*.png
+backend/storage/**/*.jpg
+backend/storage/**/*.jpeg
+
 ### STS ###
 .apt_generated
 .classpath
@@ -101,7 +109,6 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
-videos/
 
 # System files
 *.orig
