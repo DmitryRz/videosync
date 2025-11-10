@@ -1,6 +1,7 @@
 package ru.dmitryrz.videosync.service;
 
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 import ru.dmitryrz.videosync.dto.VideoRequest;
 import ru.dmitryrz.videosync.dto.VideoResponse;
@@ -21,11 +22,13 @@ public interface VideoService {
      */
     VideoResponse getVideo(Long id);
 
+    String getPreviewMimeType(Long id);
+
     /**
      * Загружает новое видео в систему.
      * Сохраняет видео файл, превью изображение и метаданные видео.
      */
-    VideoResponse uploadVideo(@Valid VideoRequest request, MultipartFile file, MultipartFile preview);
+    VideoResponse uploadVideo(@Valid VideoRequest request, MultipartFile video, MultipartFile preview);
 
     /**
      * Обновляет метаданные существующего видео.
@@ -37,4 +40,8 @@ public interface VideoService {
      * Удаляет запись из базы данных и связанные файлы (видео и превью) из файлового хранилища.
      */
     void deleteVideo(Long id);
+
+    Resource streamVideo(Long id);
+
+    Resource previewVideo(Long id);
 }
