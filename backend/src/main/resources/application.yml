@@ -9,7 +9,7 @@ spring:
   # --- Профили ---
   # Указываем 'dev' как профиль по умолчанию, если не указан другой (например, при запуске)
   profiles:
-    active: prod
+    active: dev
 
   jpa:
     open-in-view: false
