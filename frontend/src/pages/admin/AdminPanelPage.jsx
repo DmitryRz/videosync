@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import Form from "../../components/common/Form.jsx";
 
+
+// TODO: Отрефакторить, сделать декомпозицию
+
 const AdminPanelPage = () => {
     const [formData, setFormData] = useState({
         title: '',
@@ -59,10 +62,10 @@ const AdminPanelPage = () => {
         setErrorMessage('');
         setSuccess('');
         setLoading(true);
+        setDisabled(true);
 
         try {
             const data = new FormData();
-
 
             const metadata = {
                 title: formData.title,
@@ -101,10 +104,7 @@ const AdminPanelPage = () => {
             }
 
             const responseData = await response.json();
-            console.log(response.headers)
-            console.log('Успешный ответ:', responseData);
-            const newResourceUri = response.headers.get('Location');
-            console.log(newResourceUri);
+            const newResourceUri = response.headers.get('Location'); // TODO: придумать для чего можно использовать
             setSuccess(`Видео "${responseData.title}" загружено. ID: ${responseData.id}`);
 
         } catch (e) {
@@ -117,22 +117,9 @@ const AdminPanelPage = () => {
                 preview: null,
             })
             setLoading(false);
+            setDisabled(false);
         }
     };
-
-    if (loading) {
-        return (
-            <div className="d-flex justify-content-center align-items-center vh-100">
-                <div
-                    className="spinner-border text-primary"
-                    role="status"
-                    style={{ width: '3rem', height: '3rem' }}
-                >
-                    <span className="visually-hidden">Загрузка...</span>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="container mt-5">
@@ -141,10 +128,10 @@ const AdminPanelPage = () => {
                 formData={formData}               // Текущие данные формы
                 onInputChange={handleInputChange} // Функция обновления состояния
                 onSubmit={handleSubmit}           // Функция обработки отправки
-                submitText="Отправить"                // Текст на кнопке отправки (опционально)
+                submitText={loading ? "Идет отправление..." : "Отправить"}              // Текст на кнопке отправки (опционально)
                 errorMessage={errorMessage}       // Сообщение об ошибке (опционально)
                 disabled={disabled}               // Отключить форму/кнопку (опционально)
-                success={success}
+                success={success}                 // Текст при удачной отправление формы
             />
         </div>
     );
