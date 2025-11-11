@@ -1,5 +1,11 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="200" height="200" rx="40" fill="#6710f3"/>
-    <circle cx="100" cy="100" r="65" stroke="white" stroke-width="10" stroke-linecap="round" stroke-dasharray="50 20"/>
-    <polygon points="120,100 90,120 90,80" fill="white"/>
+    <defs>
+        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8A2BE2" />
+            <stop offset="100%" stop-color="#4B0082" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" rx="40" fill="url(#gradient1)"/>
+    <circle cx="100" cy="100" r="65" stroke="white" stroke-width="3" fill="none"/>
+    <polygon points="115,100 85,120 85,80" fill="white"/>
 </svg>
