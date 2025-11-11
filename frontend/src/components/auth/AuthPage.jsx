@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import AuthForm from "./AuthForm.jsx";
+import Form from "../common/Form.jsx";
 
 const AuthPage = ({
                       title,
@@ -21,7 +21,7 @@ const AuthPage = ({
                     <div className="card shadow">
                         <div className="card-body p-4">
                             <h2 className="card-title text-center mb-4">{title}</h2>
-                            <AuthForm
+                            <Form
                                 fieldsConfig={fieldsConfig}
                                 formData={formData}
                                 onInputChange={onInputChange}

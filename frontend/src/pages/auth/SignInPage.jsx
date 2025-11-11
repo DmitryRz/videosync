@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthPage from "../../components/common/auth/AuthPage.jsx";
+import AuthPage from "../../components/auth/AuthPage.jsx";
 import {SIGNIN_FIELDS } from "../../constants/authForms.js";
 import {decodeJWT} from "../../utils/index.js";
 import {useAuth, useAuthForm, useSubmit} from "../../hooks/index.js";

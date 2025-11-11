@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AuthForm = ({
+const Form = ({
                       fieldsConfig,
                       formData,
                       onInputChange,
@@ -8,6 +8,7 @@ const AuthForm = ({
                       submitText = "Отправить",
                       errorMessage,
                       disabled = false,
+                      success = false,
                   }) => {
     return (
         <form onSubmit={onSubmit}>
@@ -20,11 +21,20 @@ const AuthForm = ({
                         type={field.type}
                         className="form-control border-secondary"
                         id={field.name}
-                        placeholder={field.placeholder}
-                        value={formData[field.name] || ''}
-                        onChange={(e) => {onInputChange(field.name, e.target.value)}}
+                        {...(field.type !== 'file' && {
+                            placeholder: field.placeholder,
+                            value: formData[field.name] || '',
+                        })}
+                        onChange={(e) => {
+                            if (field.type === 'file') {
+                                onInputChange(field.name, e.target.files[0]);
+                            } else {
+                                onInputChange(field.name, e.target.value);
+                            }
+                        }}
                         required={field.required}
                         disabled={disabled}
+                        accept={field.accept}
                     />
                 </div>
             ))}
@@ -32,6 +42,11 @@ const AuthForm = ({
             {errorMessage && (
                 <div className="alert alert-danger alert-dismissible fade show p-2" role="alert">
                     <div className="text-center">{errorMessage}</div>
+                </div>
+            )}
+            {success && (
+                <div className="alert alert-info alert-dismissible fade show p-2" role="alert">
+                    <div className="text-center">{success}</div>
                 </div>
             )}
 
@@ -42,4 +57,4 @@ const AuthForm = ({
     );
 };
 
-export default AuthForm;
+export default Form;

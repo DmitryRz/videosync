@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useAuth, useAuthForm, useSubmit} from "../../hooks/index.js";
 import {decodeJWT} from "../../utils/index.js";
 import {SIGNUP_FIELDS} from "../../constants/authForms.js";
-import AuthPage from "../../components/common/auth/AuthPage.jsx";
+import AuthPage from "../../components/auth/AuthPage.jsx";
 
 const SignUpPage = () => {
     const { login } = useAuth(AuthContext);
